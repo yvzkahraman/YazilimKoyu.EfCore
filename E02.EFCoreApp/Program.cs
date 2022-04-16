@@ -3,7 +3,9 @@ using E02.EFCoreApp.Data.Context;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
 //Action Func Predicate
+
 // x=>x.Id == Id
 // Add services to the container.
 
@@ -12,7 +14,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<YazilimKoyuContext>(opt =>
 {
     opt.UseSqlServer("server=(localdb)\\mssqllocaldb; database=YazilimKoyuDb; integrated security=true;");
-    opt.LogTo(Console.WriteLine,LogLevel.Information);
 });
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
