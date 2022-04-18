@@ -10,7 +10,7 @@ for (int i = 0; i < 100; i++)
     product.Id = i;
     product.Name = "Product -" + i;
 
-    products.Add(product); 
+    products.Add(product);
 }
 
 products.ForEach(p =>

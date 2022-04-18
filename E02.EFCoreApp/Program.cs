@@ -1,5 +1,5 @@
-using E02.EFCoreApp.Controllers;
 using E02.EFCoreApp.Data.Context;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +15,8 @@ builder.Services.AddDbContext<YazilimKoyuContext>(opt =>
 {
     opt.UseSqlServer("server=(localdb)\\mssqllocaldb; database=YazilimKoyuDb; integrated security=true;");
 });
+
+builder.Services.AddMediatR(typeof(Program));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

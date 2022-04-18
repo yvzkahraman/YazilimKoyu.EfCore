@@ -1,7 +1,7 @@
-﻿using E02.EFCoreApp.Data.Context;
-using E02.EFCoreApp.Data.Entities;
+﻿using E02.EFCoreApp.Application.CQRS.Commands;
+using E02.EFCoreApp.Application.CQRS.Queries;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace E02.EFCoreApp.Controllers
 {
@@ -11,26 +11,26 @@ namespace E02.EFCoreApp.Controllers
     // localhost:/api/students
     public class StudentsController : ControllerBase
     {
-        private readonly YazilimKoyuContext _context;
+        private readonly IMediator _mediator;
 
-        public StudentsController(YazilimKoyuContext context)
+        public StudentsController(IMediator mediator)
         {
-            _context = context;
+            _mediator = mediator;
         }
 
         //api/students
         [HttpGet]
-        public IActionResult GetStudents()
+        public async Task<IActionResult> GetStudents()
         {
-            var result= _context.People.AsNoTracking().OfType<Student>().ToList();
+            var result = await _mediator.Send(new GetStudentListQuery());
             return Ok(result);
         }
 
-        //api/students/yavuz
+        //api/students/1
         [HttpGet("{id}")]
-        public IActionResult GetStudentById(int id)
+        public async Task<IActionResult> GetStudentById([FromRoute] int id)
         {
-            var student = _context.People.AsNoTracking().OfType<Student>().SingleOrDefault(p => p.Id == id);
+            var student = await _mediator.Send(new GetStudentByIdQuery(id));
             if (student == null)
             {
                 return NotFound();
@@ -38,13 +38,30 @@ namespace E02.EFCoreApp.Controllers
             return Ok(student);
         }
 
+        //httpput
+        //api/students?id=1&name=3242&number 
+        // body => student 
         [HttpPut]
-        public IActionResult UpdateStudent()
+        public async Task<IActionResult> UpdateStudent([FromBody] UpdateStudentCommand command)
         {
-            var updatedStudent = _context.Students.SingleOrDefault(x=>x.Id == 1);
-            updatedStudent.Number = "number değişti";
-            _context.SaveChanges();
+            await _mediator.Send(command);
             return NoContent();
+        }
+
+        // httpdelete
+        // api/students/1
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> RemoveStudent([FromRoute] int id)
+        {
+            await _mediator.Send(new RemoveStudentCommand(id));
+            return NoContent();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateStudent([FromBody] CreateStudentCommand command)
+        {
+            await _mediator.Send(command);
+            return Created("", command);
         }
 
 

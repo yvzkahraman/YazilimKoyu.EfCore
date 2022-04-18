@@ -2,7 +2,7 @@
 {
     public class Student : Person
     {
-    
+
         public string Number { get; set; } = string.Empty;
 
         public string University { get; set; } = string.Empty;

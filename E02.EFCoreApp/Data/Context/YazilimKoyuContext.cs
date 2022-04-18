@@ -23,7 +23,7 @@ namespace E02.EFCoreApp.Data.Context
             modelBuilder.Entity<Teacher>().ToTable("Teachers");
             modelBuilder.Entity<Student>().ToTable("Students");
 
-            modelBuilder.Entity<Student>().HasMany(x=>x.StudentCourses).WithOne(x=>x.Student).HasForeignKey(x=>x.StudentId).OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Student>().HasMany(x => x.StudentCourses).WithOne(x => x.Student).HasForeignKey(x => x.StudentId).OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<Course>().HasMany(x => x.StudentCourses).WithOne(x => x.Course).HasForeignKey(x => x.CourseId).OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<StudentCourse>().HasKey(x => new { x.StudentId, x.CourseId });
