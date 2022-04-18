@@ -1,4 +1,5 @@
-﻿using E02.EFCoreApp.Application.CQRS.Queries;
+﻿using E02.EFCoreApp.Application.CQRS.Commands;
+using E02.EFCoreApp.Application.CQRS.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,6 +29,28 @@ namespace E02.EFCoreApp.Controllers
         {
             var result = await _mediator.Send(new GetCourseListQuery());
             return Ok(result);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateCourse([FromBody] UpdateCourseCommand command)
+        {
+            await _mediator.Send(command);
+            return NoContent();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCourse([FromBody] CreateCourseCommand command)
+        {
+            await _mediator.Send(command);
+            return Created("", command);
+        }
+
+        // api/courses/1
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> RemoveCourse([FromRoute] int id)
+        {
+            await _mediator.Send(new RemoveCourseCommand(id));
+            return NoContent();
         }
 
     }
