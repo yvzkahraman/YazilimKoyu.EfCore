@@ -1,10 +1,12 @@
 ﻿using E02.EFCoreApp.Application.CQRS.Commands;
 using E02.EFCoreApp.Application.CQRS.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E02.EFCoreApp.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class CoursesController : ControllerBase
@@ -16,6 +18,7 @@ namespace E02.EFCoreApp.Controllers
             _mediator = mediator;
         }
 
+        [Authorize(Roles = "Member")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCourse([FromRoute] int id)
         {

@@ -1,6 +1,10 @@
+using E02.EFCoreApp;
 using E02.EFCoreApp.Data.Context;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +14,19 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+{
+    opt.RequireHttpsMetadata = false;
+    opt.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+    {
+        ValidIssuer = JwtInfo.Issuer,
+        ValidAudience = JwtInfo.Audience,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtInfo.Key)),
+        ValidateIssuerSigningKey = true,
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero,
+    };
+});
 
 builder.Services.AddDbContext<YazilimKoyuContext>(opt =>
 {
@@ -31,6 +48,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
