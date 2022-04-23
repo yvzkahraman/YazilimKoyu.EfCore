@@ -24,6 +24,7 @@ namespace E02.EFCoreApp.Application.CQRS.CommandHandlers
             createdStudent.Name = request.Name;
             createdStudent.University = request.University;
             createdStudent.Password = request.Password;
+            createdStudent.RoleId = request.RoleId;
 
             await _context.Students.AddAsync(createdStudent);
             await _context.SaveChangesAsync();

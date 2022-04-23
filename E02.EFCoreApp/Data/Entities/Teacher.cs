@@ -4,6 +4,6 @@
     {
         public string Profession { get; set; } = string.Empty;
 
-        public List<Course> Courses { get; set; } = new List<Course>();
+        public List<Course>? Courses { get; set; }
     }
 }

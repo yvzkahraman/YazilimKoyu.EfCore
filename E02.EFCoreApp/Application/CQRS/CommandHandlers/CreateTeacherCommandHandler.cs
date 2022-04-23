@@ -22,7 +22,8 @@ namespace E02.EFCoreApp.Application.CQRS.CommandHandlers
                 Username = request.Username,
                 Name = request.Name,
                 Password = request.Password,
-                Profession = request.Profession
+                Profession = request.Profession,
+                RoleId = request.RoleId,
             };
 
             await _context.Teachers.AddAsync(createdTeacher);

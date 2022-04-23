@@ -6,8 +6,8 @@
         public string Title { get; set; } = string.Empty;
         public int TeacherId { get; set; }
 
-        public Teacher Teacher { get; set; } = new Teacher();
+        public Teacher? Teacher { get; set; }
 
-        public List<StudentCourse> StudentCourses { get; set; } = new List<StudentCourse>();
+        public List<StudentCourse>? StudentCourses { get; set; }
     }
 }

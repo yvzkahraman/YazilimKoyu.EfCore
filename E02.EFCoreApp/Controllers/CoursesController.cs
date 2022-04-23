@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace E02.EFCoreApp.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class CoursesController : ControllerBase
@@ -18,14 +18,16 @@ namespace E02.EFCoreApp.Controllers
             _mediator = mediator;
         }
 
-        [Authorize(Roles = "Member")]
+        [Authorize(Roles = "Student,Teacher")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCourse([FromRoute] int id)
         {
+            var userName = User.Claims.SingleOrDefault(x => x.Type == "userName")?.Value;
             var result = await _mediator.Send(new GetCourseByIdQuery(id));
             return Ok(result);
         }
 
+        [Authorize(Roles = "Student,Teacher")]
         [HttpGet]
 
         public async Task<IActionResult> GetCourses()
@@ -34,6 +36,7 @@ namespace E02.EFCoreApp.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "Teacher")]
         [HttpPut]
         public async Task<IActionResult> UpdateCourse([FromBody] UpdateCourseCommand command)
         {

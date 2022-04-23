@@ -16,5 +16,7 @@ namespace E02.EFCoreApp.Application.CQRS.Commands
         public string University { get; set; } = string.Empty;
 
         public string City { get; set; } = string.Empty;
+
+        public int RoleId { get; set; }
     }
 }

@@ -13,5 +13,7 @@ namespace E02.EFCoreApp.Application.CQRS.Commands
         public string Number { get; set; } = string.Empty;
 
         public string Profession { get; set; } = string.Empty;
+
+        public int RoleId { get; set; }
     }
 }

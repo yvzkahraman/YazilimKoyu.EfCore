@@ -1,6 +1,7 @@
 ﻿using E02.EFCoreApp.Application.CQRS.Commands;
 using E02.EFCoreApp.Application.CQRS.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E02.EFCoreApp.Controllers
@@ -18,6 +19,7 @@ namespace E02.EFCoreApp.Controllers
             _mediator = mediator;
         }
 
+        [Authorize(Roles = "Student")]
         //api/students
         [HttpGet]
         public async Task<IActionResult> GetStudents()

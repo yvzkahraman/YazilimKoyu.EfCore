@@ -25,7 +25,7 @@ namespace E02.EFCoreApp.Application.CQRS.CommandHandlers
                 updatedTeacher.Profession = request.Profession;
                 updatedTeacher.Name= request.Name;
                 updatedTeacher.Password = request.Password;
-
+                updatedTeacher.RoleId = request.RoleId;
                 await _context.SaveChangesAsync();
             }
             return Unit.Value;

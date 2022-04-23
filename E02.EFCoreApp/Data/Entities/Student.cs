@@ -9,6 +9,6 @@
 
         public string City { get; set; } = string.Empty;
 
-        public List<StudentCourse> StudentCourses { get; set; } = new List<StudentCourse>();
+        public List<StudentCourse>? StudentCourses { get; set; }
     }
 }

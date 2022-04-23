@@ -4,18 +4,16 @@ using E02.EFCoreApp.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace E02.EFCoreApp.Data.Migrations
+namespace E02.EFCoreApp.Migrations
 {
     [DbContext(typeof(YazilimKoyuContext))]
-    [Migration("20220416094120_One")]
-    partial class One
+    partial class YazilimKoyuContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,6 +60,9 @@ namespace E02.EFCoreApp.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Surname")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -72,7 +73,26 @@ namespace E02.EFCoreApp.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("RoleId");
+
                     b.ToTable("People");
+                });
+
+            modelBuilder.Entity("E02.EFCoreApp.Data.Entities.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Definition")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("E02.EFCoreApp.Data.Entities.StudentCourse", b =>
@@ -134,6 +154,17 @@ namespace E02.EFCoreApp.Data.Migrations
                     b.Navigation("Teacher");
                 });
 
+            modelBuilder.Entity("E02.EFCoreApp.Data.Entities.Person", b =>
+                {
+                    b.HasOne("E02.EFCoreApp.Data.Entities.Role", "Role")
+                        .WithMany("People")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("E02.EFCoreApp.Data.Entities.StudentCourse", b =>
                 {
                     b.HasOne("E02.EFCoreApp.Data.Entities.Course", "Course")
@@ -174,6 +205,11 @@ namespace E02.EFCoreApp.Data.Migrations
             modelBuilder.Entity("E02.EFCoreApp.Data.Entities.Course", b =>
                 {
                     b.Navigation("StudentCourses");
+                });
+
+            modelBuilder.Entity("E02.EFCoreApp.Data.Entities.Role", b =>
+                {
+                    b.Navigation("People");
                 });
 
             modelBuilder.Entity("E02.EFCoreApp.Data.Entities.Student", b =>

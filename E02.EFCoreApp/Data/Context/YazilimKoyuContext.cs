@@ -18,6 +18,8 @@ namespace E02.EFCoreApp.Data.Context
 
         public DbSet<StudentCourse> StudentCourses => Set<StudentCourse>();
 
+        public DbSet<Role> Roles => Set<Role>();
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Teacher>().ToTable("Teachers");
@@ -25,6 +27,8 @@ namespace E02.EFCoreApp.Data.Context
 
             modelBuilder.Entity<Student>().HasMany(x => x.StudentCourses).WithOne(x => x.Student).HasForeignKey(x => x.StudentId).OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<Course>().HasMany(x => x.StudentCourses).WithOne(x => x.Course).HasForeignKey(x => x.CourseId).OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Person>().HasOne(x => x.Role).WithMany(x => x.People).HasForeignKey(x => x.RoleId).OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<StudentCourse>().HasKey(x => new { x.StudentId, x.CourseId });
 

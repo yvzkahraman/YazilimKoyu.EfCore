@@ -25,6 +25,7 @@ namespace E02.EFCoreApp.Application.CQRS.CommandHandlers
                 updatedStudent.Name = request.Name;
                 updatedStudent.University = request.University;
                 updatedStudent.Password = request.Password;
+                updatedStudent.RoleId = request.RoleId;
                 _context.SaveChanges();
             }
 
