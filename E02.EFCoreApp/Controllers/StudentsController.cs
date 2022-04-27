@@ -2,10 +2,12 @@
 using E02.EFCoreApp.Application.CQRS.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E02.EFCoreApp.Controllers
 {
+    [EnableCors]
     [ApiController]
     [Route("api/[controller]")]
 
@@ -19,7 +21,7 @@ namespace E02.EFCoreApp.Controllers
             _mediator = mediator;
         }
 
-        [Authorize(Roles = "Student")]
+        //[Authorize(Roles = "Student")]
         //api/students
         [HttpGet]
         public async Task<IActionResult> GetStudents()

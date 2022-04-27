@@ -13,6 +13,16 @@ var builder = WebApplication.CreateBuilder(args);
 // x=>x.Id == Id
 // Add services to the container.
 
+builder.Services.AddCors(setup =>
+{
+    setup.AddPolicy("All", opt =>
+    {
+        opt.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
+
+        //opt.WithOrigins("http://nursin.com", "http://yavuzsamet.com").WithMethods("GET").AllowAnyHeader();
+    });
+});
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
 {
@@ -48,6 +58,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("All");
 app.UseAuthentication();
 app.UseAuthorization();
 
