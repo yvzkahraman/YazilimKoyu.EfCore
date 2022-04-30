@@ -1,4 +1,5 @@
 ﻿using E02.EFCoreApp.Application.CQRS.Commands;
+using E02.EFCoreApp.Application.Enums;
 using E02.EFCoreApp.Data.Context;
 using E02.EFCoreApp.Data.Entities;
 using MediatR;
@@ -23,7 +24,7 @@ namespace E02.EFCoreApp.Application.CQRS.CommandHandlers
                 Name = request.Name,
                 Password = request.Password,
                 Profession = request.Profession,
-                RoleId = request.RoleId,
+                RoleId = (int)RoleType.Teacher,
             };
 
             await _context.Teachers.AddAsync(createdTeacher);

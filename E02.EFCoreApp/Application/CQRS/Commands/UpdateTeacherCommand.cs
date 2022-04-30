@@ -11,7 +11,6 @@ namespace E02.EFCoreApp.Application.CQRS.Commands
         public string Username { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
         public string Profession { get; set; } = string.Empty;
-        public int RoleId { get; set; }
 
     }
 }

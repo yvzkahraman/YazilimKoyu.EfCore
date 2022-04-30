@@ -1,4 +1,5 @@
 ﻿using E02.EFCoreApp.Application.CQRS.Commands;
+using E02.EFCoreApp.Application.Enums;
 using E02.EFCoreApp.Data.Context;
 using E02.EFCoreApp.Data.Entities;
 using MediatR;
@@ -25,7 +26,7 @@ namespace E02.EFCoreApp.Application.CQRS.CommandHandlers
                 updatedTeacher.Profession = request.Profession;
                 updatedTeacher.Name= request.Name;
                 updatedTeacher.Password = request.Password;
-                updatedTeacher.RoleId = request.RoleId;
+                updatedTeacher.RoleId = (int)RoleType.Teacher;
                 await _context.SaveChangesAsync();
             }
             return Unit.Value;

@@ -29,6 +29,5 @@ namespace E02.EFCoreApp.Application.CQRS.Commands
 
         public string City { get; set; } = string.Empty;
 
-        public int RoleId { get; set; }
     }
 }

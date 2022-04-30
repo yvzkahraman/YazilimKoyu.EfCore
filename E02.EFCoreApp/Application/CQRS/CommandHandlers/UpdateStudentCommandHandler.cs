@@ -1,4 +1,5 @@
 ﻿using E02.EFCoreApp.Application.CQRS.Commands;
+using E02.EFCoreApp.Application.Enums;
 using E02.EFCoreApp.Data.Context;
 using MediatR;
 
@@ -25,7 +26,7 @@ namespace E02.EFCoreApp.Application.CQRS.CommandHandlers
                 updatedStudent.Name = request.Name;
                 updatedStudent.University = request.University;
                 updatedStudent.Password = request.Password;
-                updatedStudent.RoleId = request.RoleId;
+                updatedStudent.RoleId = (int)RoleType.Student;
                 _context.SaveChanges();
             }
 
