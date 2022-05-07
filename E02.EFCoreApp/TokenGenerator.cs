@@ -18,7 +18,9 @@ namespace E02.EFCoreApp
             claims.Add(new Claim(ClaimTypes.Role,personDto.RoleDefinition));
             claims.Add(new Claim(ClaimTypes.NameIdentifier,personDto.Id.ToString()));
             claims.Add(new Claim("username", personDto.Username));
-
+            claims.Add(new Claim("name",personDto.Name));
+            claims.Add(new Claim("roleInfo", personDto.RoleDefinition));
+            claims.Add(new Claim("userId", personDto.Id.ToString()));
             JwtSecurityToken token = new JwtSecurityToken(issuer:JwtInfo.Issuer
                 ,audience:JwtInfo.Audience,claims :claims, notBefore:DateTime.UtcNow, expires:DateTime.UtcNow.AddDays(15),signingCredentials: credentials);
             JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();

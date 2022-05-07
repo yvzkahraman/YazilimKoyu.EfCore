@@ -36,7 +36,7 @@ namespace E02.EFCoreApp.Controllers
             return Ok(result);
         }
 
-        [Authorize(Roles = "Teacher")]
+        //[Authorize(Roles = "Teacher")]
         [HttpPut]
         public async Task<IActionResult> UpdateCourse([FromBody] UpdateCourseCommand command)
         {
@@ -44,11 +44,12 @@ namespace E02.EFCoreApp.Controllers
             return NoContent();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> CreateCourse([FromBody] CreateCourseCommand command)
         {
-            await _mediator.Send(command);
-            return Created("", command);
+            var response = await _mediator.Send(command);
+            return Created("", response);
         }
 
         // api/courses/1

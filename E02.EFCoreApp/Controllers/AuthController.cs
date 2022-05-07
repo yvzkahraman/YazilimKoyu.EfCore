@@ -1,5 +1,6 @@
 ﻿using E02.EFCoreApp.Application.CQRS.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E02.EFCoreApp.Controllers
@@ -28,6 +29,19 @@ namespace E02.EFCoreApp.Controllers
             TokenGenerator tokenGenerator = new TokenGenerator();
             var token = tokenGenerator.GenerateJwt(personDto);
             return Created("",token);
+        }
+
+
+        /// <summary>
+        ///  DONT USE
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        [HttpGet]
+        public IActionResult GetUserInfo()
+        {
+           var name = User.Claims?.FirstOrDefault(x => x.Type == "Name")?.Value;
+            return Ok(name);
         }
     }
 }
