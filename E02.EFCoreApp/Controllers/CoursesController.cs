@@ -1,5 +1,7 @@
 ﻿using E02.EFCoreApp.Application.CQRS.Commands;
 using E02.EFCoreApp.Application.CQRS.Queries;
+using E02.EFCoreApp.Application.Dtos;
+using E02.EFCoreApp.Data.Context;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +14,12 @@ namespace E02.EFCoreApp.Controllers
     public class CoursesController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly YazilimKoyuContext _context;
 
-        public CoursesController(IMediator mediator)
+        public CoursesController(IMediator mediator, YazilimKoyuContext context)
         {
             _mediator = mediator;
+            _context = context;
         }
 
         [Authorize(Roles = "Student,Teacher")]
@@ -58,6 +62,45 @@ namespace E02.EFCoreApp.Controllers
         {
             await _mediator.Send(new RemoveCourseCommand(id));
             return NoContent();
+        }
+
+        [AllowAnonymous]
+
+        [HttpGet("{courseId}/students")]
+        public async Task<IActionResult> GetStudentsByCourseId(int courseId)
+        {
+            var data = await _mediator.Send(new GetStudentsByCourseIdQuery(courseId));
+            return Ok(data);
+        }
+
+        [AllowAnonymous]
+        [HttpPost("assignStudent")]
+        public IActionResult AssignStudent(List<StudentCourseDto> list)
+        {
+            foreach (var studentCourse in list)
+            {
+                var checkedStudent = _context.StudentCourses.SingleOrDefault(x => x.CourseId == studentCourse.CourseId && x.StudentId == studentCourse.StudentId);
+                if (studentCourse.IsExist)
+                {
+                    if(checkedStudent== null)
+                    {
+                        _context.StudentCourses.Add(new Data.Entities.StudentCourse
+                        {
+                            CourseId = studentCourse.CourseId,
+                            StudentId = studentCourse.StudentId,
+                        });
+                    }
+                }
+                else
+                {
+                    if(checkedStudent!= null)
+                    {
+                        _context.StudentCourses.Remove(checkedStudent);
+                    }
+                }
+            }
+            _context.SaveChanges();
+            return Ok();
         }
 
     }
